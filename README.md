@@ -2,7 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 It also uses the axios and lodash libraries. 
 
-Data comes from the Hacker News API.
-(https://github.com/HackerNews/API).
+Data comes from the Algolia Search Hacker News API:
+
+https://hn.algolia.com/api
 
 Guidance from The Road to Learn React by Robin Wieruch.

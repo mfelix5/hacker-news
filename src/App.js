@@ -7,7 +7,7 @@ import Loading from './Loading.js';
 import './App.css';
 
 
-const DEFAULT_QUERY = 'react'
+const DEFAULT_QUERY = ''
 const DEFAULT_HPP = '100'
 const PATH_BASE = 'https://hn.algolia.com/api/v1';
 const PATH_SEARCH = '/search';
