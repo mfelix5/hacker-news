@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import './App.css';
 
-const DEFAULT_QUERY = ''
+const DEFAULT_QUERY = 'react'
 const DEFAULT_HPP = '100'
 const PATH_BASE = 'https://hn.algolia.com/api/v1';
 const PATH_SEARCH = '/search';
 const PARAM_SEARCH = 'query=';
 const PARAM_PAGE = 'page=';
 const PARAM_HPP = 'hitsPerPage='
+
 
 class App extends Component {
   constructor(props) {
@@ -38,9 +40,9 @@ class App extends Component {
   }
 
   fetchSearchTopStories(searchTerm, page = 0) {
-    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
-    .then(response => response.json())
-    .then(result => this.setSearchTopStories(result))
+    // console.log(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
+    axios(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
+    .then(result => this.setSearchTopStories(result.data))
     .catch(error => error);
   }
 
@@ -75,13 +77,13 @@ class App extends Component {
     return (
       <div className="page">
         <div className="interactions">
-          <Search
+          <Navbar
             value={searchTerm}
             onChange={this.handleSearchChange}
             onSubmit={this.onSearchSubmit}
           >
             Search:
-          </Search>
+          </Navbar>
         </div>
         { result  
          && <Table 
@@ -103,10 +105,11 @@ const Table = ({ list, onDismiss }) =>
     <div className="table">
       {list.map(x =>
         <div key ={x.objectID} className="table-row">
-            <span style={{ width: '40%' }}>
-              <a href={x.url}>{x.title}</a>
+            <span style={{ width: '50%' }}>
+              <a href={x.url} target="_blank">{x.title}</a>
             </span>
-            <span style={{ width: '30%' }}>{x.author}</span>
+            <span style={{ width: '10%' }}>{x.author}</span>
+            <span style={{ width: '10%' }}>{x.created_at.split("T")[0]}</span>
             <span style={{ width: '10%' }}>{x.num_comments}</span>
             <span style={{ width: '10%' }}>{x.points}</span>
             <span style={{ width: '10%' }}>
@@ -129,16 +132,19 @@ const Button = ({ onClick, className, children }) =>
   > {children}
   </button>
 
-const Search = ({ value, onChange, onSubmit, children }) =>
-    <form onSubmit={onSubmit}>
-      <input
-        type="text"
-        value={value}
-        onChange={onChange}
-      />
-      <button type="submit">
-        {children}
-      </button>
-    </form>
+const Navbar = ({ value, onChange, onSubmit, children }) =>
+    <div className="nav">
+      <h1>Hacker News</h1>
+      <form onSubmit={onSubmit}>
+        <input
+          type="text"
+          value={value}
+          onChange={onChange}
+        />
+        <button type="submit">
+          {children}
+        </button>
+      </form>
+    </div>
 
 export default App;

@@ -1,7 +1,7 @@
 body {
   color: #222;
   background: #f4f4f4;
-  font: 400 14px CoreSans, Arial,sans-serif;
+  font: 14px monospace;
 }
 
 a {
@@ -30,9 +30,9 @@ input {
 button {
   padding: 10px; 
   border-radius: 5px;
-  border: 1px solid #dddddd; 
-  background: transparent; 
-  color: #808080;
+  border: 1px solid #000000; 
+  background-color: rgb(251, 190, 75); 
+  color: black;
   cursor: pointer;
 }
 

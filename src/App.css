@@ -35,6 +35,19 @@
   text-align: center;
 }
 
+.nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+}
+
+h1 {
+  margin-right: 50px;
+  color: white;
+}
+
 .table {
   margin: 20px 0;
 }
@@ -75,8 +88,9 @@
   padding: 0 5px;
 }
 
-.button-inline {
+/* .button-inline {
   border-width: 0;
+  border-radius: 10px;
   background: transparent;
   color: inherit;
   text-align: inherit; 
@@ -89,4 +103,4 @@
 .button-active {
   border-radius: 0;
   border-bottom: 1px solid #38BB6C;
-}
+} */
