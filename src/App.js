@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
+import Table from './Table.js';
+import Navbar from './Navbar.js';
+import Button from './Button.js';
 
 const DEFAULT_QUERY = 'react'
 const DEFAULT_HPP = '100'
@@ -9,7 +12,6 @@ const PATH_SEARCH = '/search';
 const PARAM_SEARCH = 'query=';
 const PARAM_PAGE = 'page=';
 const PARAM_HPP = 'hitsPerPage='
-
 
 class App extends Component {
   constructor(props) {
@@ -100,51 +102,5 @@ class App extends Component {
     );
   }
 }
-
-const Table = ({ list, onDismiss }) => 
-    <div className="table">
-      {list.map(x =>
-        <div key ={x.objectID} className="table-row">
-            <span style={{ width: '50%' }}>
-              <a href={x.url} target="_blank">{x.title}</a>
-            </span>
-            <span style={{ width: '10%' }}>{x.author}</span>
-            <span style={{ width: '10%' }}>{x.created_at.split("T")[0]}</span>
-            <span style={{ width: '10%' }}>{x.num_comments}</span>
-            <span style={{ width: '10%' }}>{x.points}</span>
-            <span style={{ width: '10%' }}>
-              <Button 
-                onClick={() => onDismiss(x.objectID)}
-                className="button-inline"
-              >
-                Dismiss
-              </Button>
-            </span>
-        </div>
-      )}
-    </div>
-
-const Button = ({ onClick, className, children }) => 
-  <button
-    onClick={onClick}
-    className={className}
-    type="button"
-  > {children}
-  </button>
-
-const Navbar = ({ value, onChange, onSubmit, children }) =>
-    <div className="nav">
-      <h1>Hacker News</h1>
-      <form onSubmit={onSubmit}>
-        <input
-          type="text"
-          value={value}
-          onChange={onChange}
-        />
-        <button type="submit">
-          {children}
-        </button>
-      </form>
-    </div>
 
 export default App;
