@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './App.css';
 import Table from './Table.js';
 import Navbar from './Navbar.js';
 import Button from './Button.js';
+import Loading from './Loading.js';
+import './App.css';
+
 
 const DEFAULT_QUERY = 'react'
 const DEFAULT_HPP = '100'
@@ -13,12 +15,16 @@ const PARAM_SEARCH = 'query=';
 const PARAM_PAGE = 'page=';
 const PARAM_HPP = 'hitsPerPage='
 
+
+
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
       result: null,
       searchTerm: DEFAULT_QUERY,
+      isLoading: false,
+      sortKey: 'DATE',
     };
 
     this.setSearchTopStories = this.setSearchTopStories.bind(this);
@@ -26,8 +32,13 @@ class App extends Component {
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
     this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
+    this.onSort = this.onSort.bind(this)
   }
   
+  onSort(sortKey) {
+    this.setState({ sortKey })
+  }
+
   setSearchTopStories(result) {
     const { hits, page } = result;
     const oldHits = page !== 0 ? this.state.result.hits : [];
@@ -37,11 +48,15 @@ class App extends Component {
     ];
     
     this.setState({ 
-      result: { hits: updatedHits, page } 
+      result: { hits: updatedHits, page },
+      isLoading: false,
     });
   }
 
   fetchSearchTopStories(searchTerm, page = 0) {
+    this.setState({
+      isLoading: true
+    });
     // console.log(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
     axios(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
     .then(result => this.setSearchTopStories(result.data))
@@ -74,7 +89,7 @@ class App extends Component {
   }
   
   render() {
-    const { searchTerm, result } = this.state;
+    const { searchTerm, result, isLoading, sortKey } = this.state;
     const page = (result && result.page) || 0;    
     return (
       <div className="page">
@@ -84,19 +99,25 @@ class App extends Component {
             onChange={this.handleSearchChange}
             onSubmit={this.onSearchSubmit}
           >
-            Search:
+            search:
           </Navbar>
         </div>
         { result  
          && <Table 
             list={result.hits}
             onDismiss={this.onDismiss}
+            sortKey={sortKey}
+            onSort={this.onSort}
           />  
         }
         <div className="interactions">
-          <Button onClick={() => this.fetchSearchTopStories(searchTerm, page +1)}>
-            More
+          { isLoading
+            ? <Loading />
+            : <Button 
+              onClick={() => this.fetchSearchTopStories(searchTerm, page +1)}>
+              show more
             </Button>
+          }
         </div>
       </div>
     );

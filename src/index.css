@@ -34,6 +34,7 @@ button {
   background-color: rgb(251, 190, 75); 
   color: black;
   cursor: pointer;
+  font-family: monospace;
 }
 
 button:hover { 
