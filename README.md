@@ -5,5 +5,3 @@ It also uses the axios and lodash libraries.
 Data comes from the Algolia Search Hacker News API:
 
 https://hn.algolia.com/api
-
-Guidance from The Road to Learn React by Robin Wieruch.
